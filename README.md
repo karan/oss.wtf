@@ -51,7 +51,7 @@ You should know the following rules:
 
 1. I will only approve subdomains for webpages related to OSS projects. As such, your PR must include a link to a public repo for your project.
 
-1. I will allow most content. I will not allow anything illegal, hateful, hurtful, spammy etc. I have final say over what goes in.
+1. I will allow most content. I will not allow anything illegal, hateful, hurtful, shady, spammy etc. I have final say over what goes in.
 
 1. I can remove your subdomain if you are being a jerk (to me, or to others). I do not owe you an explanation in that case.
 
