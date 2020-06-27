@@ -1,0 +1,44 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'oss.wtf/*'
+  pull_request:
+    paths:
+    - 'oss.wtf/*'
+
+env:
+  tf_version: 0.12.28
+  working_dir: oss.wtf
+  GCPPROJECT: ${{ secrets.GCPPROJECT }}
+  GOOGLE_CLOUD_KEYFILE_JSON: ${{ secrets.ACCOUNTJSON }}
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.working_dir }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.tf_version }}
+
+    - name: Terraform Init
+      run: terraform init -input=false
+
+    - name: Terraform Plan
+      run: terraform plan -var="project_name=${{ env.GCPPROJECT }}" -input=false -no-color
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -auto-approve -var="project_name=${{ env.GCPPROJECT }}"
